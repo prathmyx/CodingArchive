@@ -1,0 +1,173 @@
+"""
+        Created by Hacker Badshah😎
+                                             """
+
+
+
+
+
+"""
+       Enter any number and 
+                  change it into words.
+                                             """
+    
+
+
+
+
+
+"""
+       It supports Decimal and
+                         Negative Numbers.      
+                                             """ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+k = p = g = input() 
+
+#Main code for conversion
+def words(num):
+    numeral = []
+    basic = [["","One","Two","Three","Four",
+"Five","Six","Seven","Eight","Nine","Ten",
+"Eleven","Twelve","Thirteen","Fourteen",
+"Fifteen","Sixteen","Seventeen","Eighteen",
+"Nineteen"],["","","Twenty","Thirty","Forty",
+"Fifty","Sixty","Seventy","Eighty","Ninety"]]
+
+    if int(num) < 20:
+        numeral.append(basic[0][int(num)])
+    else:
+        if len(num) == 2:
+            numeral.append(basic[1][int(num[0])])
+            if num[1] != "0":
+                numeral[-1] += "-"+basic[0][int(num[1])]
+        else:
+            if int(num[1:]) == 0:
+                numeral.append(basic[0][int(num[0])] + " Hundred")
+            else:
+                 numeral.append(basic[0][int(num[0])] + " Hundred And")
+            num = int(num[1:])
+            a = words(str(num))
+            numeral += a
+    
+    return numeral
+
+#Grouping 3 number together
+def group(a):
+    while len(a)%3 != 0:
+        a = "0"+a
+    b = [a[i-3:i] for i in range(len(a),0,-3)]
+    return b 
+
+#decimal places
+places = [""," Thousand"," Million"," Billion",
+" Trillion"," Quadrillion"," Quintillion",
+" Sextillion"," Septillion"," Octillion",
+" Nonillion"," Decillion"," Undecillion",
+" Duodecillion"," Tredecillion",
+" Quattudecillion"," Quindecillion",
+" Sedecillion"," Septendecillion",
+" Octodecillion"," Novendecilllion",
+" Vigintillion"," Unvigintillion",
+" Duovigintillion"," Tresvigintillion",
+" Quattuorvigintillion"," Quinvigintillion",
+" Sesvigintillion"," Septemvigintillion",
+" Octovigintillion"," Novemvigintillion",
+" Trigintillion"," Untrigintillion",
+" Duotrigintrillion"," Trestrigintillion",
+" Quattuortrigintillion"," Quintrigintillion",
+" Sestrigintillion"," Septentrigintillion",
+" Octotrigintillion"," Noventrigintillion",
+" Quadragintillion" ] #10**125
+decimal = [""," Tenths"," Hundredths"]
+place = [""," Ten"," Hundred"]
+
+         
+numeral = ""
+decipart = ""
+Negative = Decimal = False
+p = k = k.replace(" ","")
+
+#To check if number is negative
+if "-" in k:
+    k = k.replace("-","")
+    Negative = True
+
+#To check if number has decimal part 
+if "." in k:
+    dec = k.strip("0")[k.strip("0").index(".")+1:]
+    k = "0"+k[:k.index(".")]
+    if dec != "":
+        Decimal = True
+   
+try:
+
+    #Conversion of decimal part
+    if Decimal :
+        nums = group(dec)
+        i = 0
+        while i < len(nums):
+            a = str(int(float(nums[i])))
+            word = " ".join(words(a))
+            if word != "":
+                decipart = word + places[i] +" "+ decipart
+            i += 1 
+        if len(dec)>2 and len(dec)%3==0:
+            decipart += places[len(dec)//3]+"th"
+        elif len(dec)>2:
+            decipart += place[len(dec)%3]+"-"+(places[len(dec)//3]+"th")[1:]
+        else:    
+            decipart += decimal[len(dec)]
+          
+    k = str(int(k))
+    nums = group(k)
+    i = 0
+    while i < len(nums):
+        a = str(int(float(nums[i])))
+        if a != "0":
+            word = " ".join(words(a))
+            numeral = word + places[i] +" "+ numeral
+        i += 1
+
+    if Decimal: 
+        if numeral != "":
+            numeral += "and " + decipart
+        else:
+            numeral = decipart
+
+    if Negative:
+        numeral = "Negative " + numeral
+
+    numeral = numeral.replace("  "," ")
+    if float(p) == 0:
+        numeral = "Zero"
+    
+    print("You had Entered :",g,"\n")
+    print("In words :",numeral)
+        
+except IndexError:
+    print("Please dont enter such a big number\n limit is",len(places)*3,"digits before and after decimal.")
+
+except ValueError:
+    print("Enter a number in Human Format \nAnd not :",g)
+
+finally:
+    print("\nThanks for Visiting")
+
+  
+   
